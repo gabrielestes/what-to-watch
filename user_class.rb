@@ -30,11 +30,12 @@ class User < MovieTitle
   def retrieve_user_ratings
     @user_rating_data.each do |user|
       if user[0].to_i == @user_id
-        @user_ratings << user[2]
         @movie_id = user[1]
+        @user_ratings << ("#{convert_to_title}: " + "#{user[2]} stars.")
+        # @user_ratings << user[2]
       end
     end
-    @user_ratings
+    puts @user_ratings
   end
 end
 
@@ -47,10 +48,10 @@ end
 def main
   user = User.new
   user.make_user_data_arrays
-  print user.make_movie_lines_arrays
+  user.make_movie_lines_arrays
   user.ask_user_id
   user.verify_user_id
-  print user.retrieve_user_ratings
+  user.retrieve_user_ratings
 end
 
 main if __FILE__ == $PROGRAM_NAME

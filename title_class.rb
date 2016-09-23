@@ -1,4 +1,5 @@
 require 'CSV'
+require 'pry'
 # This class retrieves and prints a movie title corresponding to the movie ID
 class MovieTitle
   def initialize
@@ -24,9 +25,9 @@ class MovieTitle
 
   def convert_to_title
     @movie_data.each do |movie|
-      @movie_title = movie[1] if movie[0].to_i == @movie_id
+      @movie_title = movie[1] if movie[0].to_i == @movie_id.to_i
     end
-    @movie_title
+    return @movie_title
   end
 end
 
