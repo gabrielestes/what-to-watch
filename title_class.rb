@@ -10,6 +10,7 @@ class MovieTitle
       line = line[0].split('|')
       @movie_data << line
     end
+    @movie_data
   end
 
   def ask_id_of_movie
@@ -23,11 +24,9 @@ class MovieTitle
 
   def convert_to_title
     @movie_data.each do |movie|
-      if movie[0].to_i == @movie_id
-        @movie_title = movie[1]
-        puts "The title corresponding to this ID is #{@movie_title}."
-      end
+      @movie_title = movie[1] if movie[0].to_i == @movie_id
     end
+    @movie_title
   end
 end
 
