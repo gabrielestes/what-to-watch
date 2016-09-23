@@ -1,5 +1,5 @@
 require 'CSV'
-
+# This class retrieves and prints a movie title corresponding to the movie ID
 class MovieTitle
   def initialize
   end
@@ -8,24 +8,34 @@ class MovieTitle
     @movie_data = []
     CSV.foreach('data_set/u.item') do |line|
       line = line[0].split('|')
-      p line
       @movie_data << line
     end
   end
-  # def ask_id_of_movie
-  # puts "What is the movie ID?"
-  # @movie_id = gets.to.i
-  # end
-  #
-  # def convert_to_title
-  #   @movie_data.each do
-  # end
+
+  def ask_id_of_movie
+    puts 'What is the movie ID?'
+    @movie_id = gets.to_i
+  end
+
+  def verify_movie_id
+    ask_id_of_movie if @movie_id < 1
+  end
+
+  def convert_to_title
+    @movie_data.each do |movie|
+      if movie[0].to_i == @movie_id
+        @movie_title = movie[1]
+        puts "The title corresponding to this ID is #{@movie_title}."
+      end
+    end
+  end
 end
 
 def main
   title = MovieTitle.new
   title.make_movie_lines_arrays
-  # p @movie_data
+  title.ask_id_of_movie
+  title.convert_to_title
 end
 
 main if __FILE__ == $PROGRAM_NAME
