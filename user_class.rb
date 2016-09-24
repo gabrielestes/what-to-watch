@@ -1,7 +1,6 @@
-# require 'CSV'
-require 'pry'
 require_relative 'title_class'
 require_relative 'movie_files_module'
+
 # This class retrieves ratings from a user based on user ID
 class User < MovieTitle
   include MovieFiles
@@ -26,7 +25,6 @@ class User < MovieTitle
       if user[0].to_i == @user_id
         @movie_id = user[1]
         @user_ratings << ("#{convert_to_title}: " + "#{user[2]} stars.")
-        # @user_ratings << user[2]
       end
     end
     puts @user_ratings
