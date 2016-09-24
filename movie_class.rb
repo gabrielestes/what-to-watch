@@ -1,24 +1,14 @@
-require 'CSV'
+require_relative 'movie_files_module'
 
 # This class takes ID input and returns its ratings and average rating.
-class Movie
+class Movie < MovieFiles
   def initialize
-  end
-
-  def make_lines_arrays
-    @user_rating_data = []
-    CSV.foreach('data_set/u.data') do |line|
-      line = line[0].gsub(/\s+/, ',').split(',')
-      @user_rating_data << line
-    end
   end
 
   def ask_for_movie
     puts 'What is the movie ID?'
     @movie_id = gets
-    if @movie_id.to_i < 1
-      ask_for_movie
-    end
+    ask_for_movie if @movie_id.to_i < 1
     @movie_id = @movie_id.to_i
   end
 
@@ -35,17 +25,14 @@ class Movie
   def return_average_rating
     ratings_sum = 0
     @ratings.each { |x| ratings_sum += x }
-    average_rating = (ratings_sum.to_f / @ratings.count.to_f)
+    average_rating = (ratings_sum / @ratings.count.to_f).round(1)
     puts "The average rating for this title is #{average_rating} stars."
-  end
-
-  def render_movie_title
   end
 end
 
 def main
   movie = Movie.new
-  movie.make_lines_arrays
+  movie.create_user_arrays
   movie.ask_for_movie
   movie.all_user_ratings
   movie.return_average_rating

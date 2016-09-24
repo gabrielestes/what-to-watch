@@ -1,19 +1,13 @@
-require 'CSV'
+# require 'CSV'
 require 'pry'
 require_relative 'title_class'
+require_relative 'movie_files_module'
 # This class retrieves ratings from a user based on user ID
 class User < MovieTitle
+  include MovieFiles
   def initialize
     @user_rating_data = []
     @user_ratings = []
-  end
-
-  def make_user_data_arrays # Make this method inherited
-    CSV.foreach('data_set/u.data') do |line|
-      line = line[0].gsub(/\s+/, ',').split(',')
-      @user_rating_data << line
-    end
-    @user_rating_data
   end
 
   def ask_user_id
@@ -44,10 +38,9 @@ def which_film?
   @title = gets.downcase
 end
 
-
 def main
   user = User.new
-  user.make_user_data_arrays
+  user.create_user_arrays
   user.make_movie_lines_arrays
   user.ask_user_id
   user.verify_user_id
