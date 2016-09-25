@@ -38,15 +38,18 @@ class PopularMovies < Movie
       ratings_sum = 0
       ratings.each { |x| ratings_sum += x }
       @average_rating = (ratings_sum.to_f / f).round(1)
-      if @average_rating >= 4.0
-        @top_movies[id] = @average_rating
-      end
+        @top_movies[id] = @average_rating if @average_rating >= 4.0
     end
+  end
+
+  def ask_for_x
+    puts "How many movies would you like to see by rating?"
+    @top_x = gets.chomp.to_i
   end
 
   def sort_by_rating
     @top_movies = @top_movies.sort_by { |_k, v| -v }
-    @top_movies = @top_movies[0..19]
+    @top_movies = @top_movies[0..@top_x]
   end
 
   def convert_to_title
@@ -66,8 +69,9 @@ def main
   top_list.make_movie_lines_arrays
   top_list.create_user_arrays
   top_list.each_average_rating
+  top_list.ask_for_x
   top_list.sort_by_rating
-  puts 'The top 20 movies are:'
+  puts "The top #{@top_x} movies are:"
   top_list.convert_to_title
 end
 
