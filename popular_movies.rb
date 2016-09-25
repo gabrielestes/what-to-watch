@@ -8,24 +8,6 @@ class PopularMovies < Movie
   def initialize
   end
 
-  def delete_first_last
-    @popular_movie_data = @user_rating_data
-    @popular_movie_data.each do |user|
-      user.delete_at(3)
-      user.delete_at(2)
-      user.delete_at(0)
-    end
-  end
-
-  def create_movie_hash
-    @frequency = Hash.new(0)
-    @popular_movie_data.sort_by { |id| @frequency[id] += 1 }
-  end
-
-  def sort_by_frequency
-    @most_frequent_movies = @frequency.sort_by { |_k, v| -v }[0..200]
-  end
-
   def each_average_rating
     @top_movies = {}
     @most_frequent_movies.each do |id, f|
@@ -38,12 +20,12 @@ class PopularMovies < Movie
       ratings_sum = 0
       ratings.each { |x| ratings_sum += x }
       @average_rating = (ratings_sum.to_f / f).round(1)
-        @top_movies[id] = @average_rating if @average_rating >= 4.0
+      @top_movies[id] = @average_rating if @average_rating >= 3.5
     end
   end
 
   def ask_for_x
-    puts "How many movies would you like to see by rating?"
+    puts 'How many movies would you like to see by rating?'
     @top_x = gets.chomp.to_i
   end
 
@@ -63,11 +45,10 @@ end
 def main
   top_list = PopularMovies.new
   top_list.create_user_arrays
-  top_list.delete_first_last
-  top_list.create_movie_hash
-  top_list.sort_by_frequency
+  top_list.refine_user_ratings
+  top_list.sort_movies_by_frequency
   top_list.make_movie_lines_arrays
-  top_list.create_user_arrays
+  top_list.create_user_arrays # Try to NOT to create the data again.
   top_list.each_average_rating
   top_list.ask_for_x
   top_list.sort_by_rating
