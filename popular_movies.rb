@@ -27,6 +27,7 @@ class PopularMovies < Movie
   end
 
   def each_average_rating
+    @top_movies = {}
     @most_frequent_movies.each do |id, f|
       ratings = []
       @user_rating_data.each do |user|
@@ -36,9 +37,12 @@ class PopularMovies < Movie
       end
       ratings_sum = 0
       ratings.each { |x| ratings_sum += x }
-      average_rating = (ratings_sum / f).round(1)
-      puts "The average rating for this title is #{average_rating} stars."
+      @average_rating = (ratings_sum.to_f / f).round(1)
+      if @average_rating >= 4.0
+        @top_movies[id] = @average_rating
+      end
     end
+    puts @top_movies
   end
 end
 
