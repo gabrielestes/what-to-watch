@@ -42,7 +42,18 @@ class PopularMovies < Movie
         @top_movies[id] = @average_rating
       end
     end
-    puts @top_movies
+  end
+
+  def sort_by_rating
+    @top_movies = @top_movies.sort_by { |_k, v| -v }
+    @top_movies = @top_movies[0..19]
+  end
+
+  def convert_to_title
+    @top_movies.each do |id, avg|
+      @movie_title = @movie_data[id[0].to_i - 1][1]
+      puts "#{@movie_title}, #{avg} stars."
+    end
   end
 end
 
@@ -55,6 +66,9 @@ def main
   top_list.make_movie_lines_arrays
   top_list.create_user_arrays
   top_list.each_average_rating
+  top_list.sort_by_rating
+  puts 'The top 20 movies are:'
+  top_list.convert_to_title
 end
 
 main if __FILE__ == $PROGRAM_NAME
