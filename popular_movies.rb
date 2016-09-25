@@ -9,7 +9,8 @@ class PopularMovies < Movie
   end
 
   def delete_first_last
-    @user_rating_data.each do |user|
+    @popular_movie_data = @user_rating_data
+    @popular_movie_data.each do |user|
       user.delete_at(3)
       user.delete_at(2)
       user.delete_at(0)
@@ -18,13 +19,28 @@ class PopularMovies < Movie
 
   def create_movie_hash
     @frequency = Hash.new(0)
-    @user_rating_data.sort_by { |id| @frequency[id] += 1 }
+    @popular_movie_data.sort_by { |id| @frequency[id] += 1 }
   end
 
   def sort_by_frequency
     @most_frequent_movies = @frequency.sort_by { |_k, v| -v }[0..200]
-    p @most_frequent_movies
   end
+
+  def each_average_rating
+    @most_frequent_movies.each do |id, f|
+      ratings = []
+      @user_rating_data.each do |user|
+        if user[1].to_i == id[0].to_i
+          ratings << user[2].to_i
+        end
+      end
+      ratings_sum = 0
+      ratings.each { |x| ratings_sum += x }
+      average_rating = (ratings_sum / f).round(1)
+      puts "The average rating for this title is #{average_rating} stars."
+    end
+  end
+end
 
 def main
   top_list = PopularMovies.new
@@ -33,6 +49,8 @@ def main
   top_list.create_movie_hash
   top_list.sort_by_frequency
   top_list.make_movie_lines_arrays
+  top_list.create_user_arrays
+  top_list.each_average_rating
 end
 
 main if __FILE__ == $PROGRAM_NAME
