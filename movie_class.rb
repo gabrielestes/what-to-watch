@@ -1,7 +1,8 @@
 require_relative 'movie_files_module'
 
 # This class takes ID input and returns its ratings and average rating.
-class Movie < MovieFiles
+class Movie
+  include MovieFiles
   def initialize
   end
 
