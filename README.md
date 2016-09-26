@@ -59,9 +59,9 @@ $ruby movie_class.rb
 #####Code example: this calculates the average of all ratings and keeps only movies with at least 3.5 stars. At this moment in the code, the pool of movies has already been reduced to the 100 most-reviewed.
 ```Ruby
   ratings_sum = 0
-      ratings.each { |x| ratings_sum += x }
-      @average_rating = (ratings_sum.to_f / f).round(1)
-      @top_movies[id] = @average_rating if @average_rating >= 3.5
+  ratings.each { |x| ratings_sum += x }
+  @average_rating = (ratings_sum.to_f / f).round(1)
+  @top_movies[id] = @average_rating if @average_rating >= 3.5
 ```
 
 ---
@@ -69,9 +69,9 @@ $ruby movie_class.rb
 #####Code example: this organizes the top-rated, most-reviewed movies by rating, descending.
 ```Ruby
 def sort_by_rating
-    @top_movies = @top_movies.sort_by { |_k, v| -v }
-    @top_movies = @top_movies[0..@top_x]
-  end
+  @top_movies = @top_movies.sort_by { |_k, v| -v }
+  @top_movies = @top_movies[0..@top_x]
+end
 ```
 
 ==
